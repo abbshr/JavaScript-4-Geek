@@ -79,11 +79,54 @@ showCase2(String('A'));
 
 ### 原型继承
 
+[blog 关于原型链的解释](https://github.com/abbshr/abbshr.github.io/issues/33)
+
+几种继承方式:
+```js
+// 1
+cobj = Object.create(pobj);
+// 2
+cobj.__proto__ = pobj;
+// 3
+var Construct = function () { this.id = 'R' };
+Construct.prototype = { pro: 'fun' };
+Construct.call(cobj);
+// 4
+var Con2 = function () { this.id = 'S' };
+Con2.prototype = new Construct
+
+Con2.prototype = Construct.prototype
+
+Con2.prototype.__proto__ = Construct.prototype
+```
+
 ### 闭包
+
+[blog 闭包, 作用域链, 内存泄露](https://github.com/abbshr/abbshr.github.io/issues/31)
 
 ### other Tricks
 
 #### eval
+eval之所以不被建议使用，是因为他会‘破坏作用域’。
+
+除了eval()，Function()或new Function()都能达到解析并执行代码的目的。只不过Function()和new Function()解析的代码只能在局部作用域执行，因此代码中的var声明的变量不会成为全局变量。而eval()却可以访问、修改它的外部作用域的变量，可能影响到全局变量。
+
+eval如何破坏作用域？
+
+```js
+var foo = 1;
+function test() {
+    var foo = 2;
+    var bar = eval;  //这里将bar设为eval的引用
+    bar(' foo = 3; ');
+    return foo;
+}
+test();   //返回2
+console.log(foo);  //返回3
+```
+
+正常思路来讲，test会返回foo=3，控制台打印的值为1才对吧，这就是eval破会作用域的结果。为什么eval会这么做？
+eval只有在被直接调用并且调用函数就是eval 本身时，解析的代码才会在当前作用域执行，否则就会像上面那样。
 
 #### Timer
 
@@ -100,9 +143,27 @@ reverse();
 
 #### Function
 
-##### name
+##### 变量解析顺序
+比如当访问函数内变量“ran”时，会按如下顺序寻找ran：
+
+当前作用域是否有“ran”？是，则访问成功；否，则跳到2.
+函数形参是否使用“ran”为名？是，则访问成功；否，则跳到3.
+函数自身的标识（函数名）是否叫“ran”？是，则访问成功；否，则跳到4.
+回溯到上一层作用域，并同时跳到1.，如此循环直到当前作用域为顶层作用域为止，若仍未找到“ran”，则返回undefined。
 
 ##### 表达式与声明
+
+```js
+var f = function fn() {};
+f();
+fn();
+// => ReferenceError
+
+(function func() {})();
+func();
+// => ReferenceError
+// 两处ReferenceError, 是因为"立即函数"调用相当于立刻调用函数表达式, 所以函数的name并不在当前作用域中.
+```
 
 ##### arguments
 ```js
@@ -124,7 +185,7 @@ bar(1,1,1);
 ```
 
 ##### 提升
-
+函数内部无论在那里声明变量，效果都等同于在函数顶部进行声明。
 
 #### Array
 
@@ -254,12 +315,18 @@ var a = new Date("2014-03-19"),
 Date构造函数可以传入多种类型的参数, 但如果是传入**多个**参数, 代表月份的第二个参数是从0开始的, 也就是3代表4月. 详见[MDN对Date的解释](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#Syntax).
 
 ## Node.js (Io.js)
-### 启动流程
-
-### 模块系统
+### 启动流程 & 模块系统
+[阅读源码理解node.js的启动, require和moudle那些事儿](https://github.com/abbshr/abbshr.github.io/issues/24)
 
 ### 流机制
+[node stream: the secret part](https://github.com/abbshr/abbshr.github.io/issues/37)
 
 ### 事件机制
+[libuv源码初探](https://github.com/abbshr/abbshr.github.io/issues/26)
+[libuv源码初探2](https://github.com/abbshr/abbshr.github.io/issues/39)
+
+[node笔记](https://github.com/abbshr/abbshr.github.io/issues/1)
+[node笔记2](https://github.com/abbshr/abbshr.github.io/issues/2)
 
 ### 底层I/O
+[从Node.js再谈Linux I/O](https://github.com/abbshr/abbshr.github.io/issues/20)
