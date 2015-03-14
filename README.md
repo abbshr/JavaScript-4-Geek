@@ -191,46 +191,46 @@ eval只有在被直接调用并且调用函数就是eval 本身时，解析的�
 4. 以构造函数的方式调用（即在函数名前加new），this指向新创建的对象.
 5. 显式设置this，例如：使用Function.prototype上的call来显式设置调用该方法的对象时，函数内this指向该对象。
 6. 直接调用在函数内部定义的闭包时，闭包内this指向全局对象。（同情况2）
-    ```js
-    var bar.getAge = function () {
-     function getBirth() {
-         return this.birthday;
-     }
-     getBirth();  //this指向全局
-    };
-    //注意：闭包中的this不会因为getBirth对象没有birthday属性而按照变量解析顺序去向上一作用域寻找birthday，因为this是关键字，而非变量！
-    //要想获取bar对象，应该在getAge内部声明一个变量来存储this，然后将这个变量以参数形式传入getBirth：
-    var bar.getAge = function () {
-     var that = this;
-     function getBirth(that) {
-         return that.birthday;
-     }
-     getBirth(that);  //正常返回
-    };
-    ```
+   ```js
+        var bar.getAge = function () {
+         function getBirth() {
+             return this.birthday;
+         }
+         getBirth();  //this指向全局
+        };
+        //注意：闭包中的this不会因为getBirth对象没有birthday属性而按照变量解析顺序去向上一作用域寻找birthday，因为this是关键字，而非变量！
+        //要想获取bar对象，应该在getAge内部声明一个变量来存储this，然后将这个变量以参数形式传入getBirth：
+        var bar.getAge = function () {
+         var that = this;
+         function getBirth(that) {
+             return that.birthday;
+         }
+         getBirth(that);  //正常返回
+        };
+   ```
 7. 将方法赋值给一个变量，则函数内部this指向全局对象（此时相当于情况2）。
-    ```js
-    var tes = bar.getAge;
-    bar.getAge();//this指向bar
-    tes();//this指向全局对象
-    ```
+   ```js
+        var tes = bar.getAge;
+        bar.getAge();//this指向bar
+        tes();//this指向全局对象
+   ```
 8. 将函数/方法以参数形式传给另一个函数时，参数this指向全局对象，这有点像“将函数/方法赋值给形参”（同情况7）。
-    ```js
-    function foo(callback) {
-     callback();
-    }
-    foo(bar.done);//done的this不会再指向bar，而是全局对象
-    ```
+   ```js
+        function foo(callback) {
+         callback();
+        }
+        foo(bar.done);//done的this不会再指向bar，而是全局对象
+   ```
 9. 对象字面量声明中，this不能用来指向对象本身，而是当前有效作用域的全局对象：
-    ```js
-    var obj = {
-     name: 'mmm',
-     do: this.geName, //这里就不能这么写了，因为this为全局对象，正确的写法是像下面的方法这样以获取obj对象
-     getName: function {
-         return this.name;
-     }
-    };
-    ```
+   ```js
+        var obj = {
+         name: 'mmm',
+         do: this.geName, //这里就不能这么写了，因为this为全局对象，正确的写法是像下面的方法这样以获取obj对象
+         getName: function {
+             return this.name;
+         }
+        };
+   ```
 
 ```js
 var reverse = [].reverse;
