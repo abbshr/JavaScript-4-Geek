@@ -65,7 +65,7 @@ value|to string|to number|to boolean|to object
 `5`(非零)|`"5"`||`true`|`new Number(5)`
 `NaN`|`NaN`||`false`|`new Number(NaN)`
 `±Infinity`|`"±Infinity"`||`true`|`new Number(±Infinity)`
-`[]`|`""`|0|false|
+`[]`|`""`|`0`|`false`|
 `[5]`(一个数字元素)|`"5"`|`5`|`true`|
 `['ran']`(其他数组)|`join(',')`|`NaN`|`true`|
 `function () {}`|函数源码字符串|`NaN`|`true`|
