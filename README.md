@@ -1,11 +1,14 @@
 汇总(2015 ES5)
 ===
+> 汇集权威指南, 秘密花园, 设计模式, 网络资源以及个人总结.
 
 > either the good parts or the confused parts, Node.js(Io.js) or pure JavaScript u want 2 know ;)
 
 JavaScript是一门饱受争议的编程语言, 其存在固然有他优秀的一面. 当然, 在历史长河中得到的多数是批评, 这一点不可否认, 从它的某些"怪癖"确实能发现在语言设计上的缺陷和考虑的不周. 不过也恰恰因此使它看起来很神秘, Geek们喜欢通过Hack它来获取成就感, 比如`2 == [[[2]]]`返回`true`, `([]+[][-~[]/[]])[-~[]]+([]+{})[-~[]]+([]+-~[]/[])[(~-~-~[])*(~-~[])] `等于字符串`"not"`. 所以, 这里不管它是Good Parts还是Bad Parts, 先仔细玩味一番.
 
 ### 运算结合性与优先级
+
+**注意运算符的优先级和结合性问题!**
 
 ```js
 var val = 'smtg';
@@ -48,6 +51,25 @@ console.log('Value is ' + (val === 'smtg') ? 'Something' : 'Nothing');
 + `NaN`与任何值的比较都将返回`false`.
 
 #### 类型转换规则
+
+value|to string|to number|to boolean|to object
+:---:|:-------:|:-------:|:--------:|:-------:
+`undefined`|`"undefined"`|`NaN`|`false`|`new TypeError()`
+`null`|`"null"`|`0`|`false`|`new TypeError()`
+`true`|`true`|`1`||`new Boolean(true)`
+`false`|`false`|`0`||`new Boolean(false)`
+`""`||`0`|`false`|`new String('')`
+`"5"`(数字字符串)||`5`|`true`|`new String('5')`
+`"ran"`(非数字字符串)||`NaN`|`true`|`new String('ran')`
+`±0`|`"0"`||`false`|`new Number(0)`
+`5`(非零)|`"5"`||`true`|`new Number(5)`
+`NaN`|`NaN`||`false`|`new Number(NaN)`
+`±Infinity`|`"±Infinity"`||`true`|`new Number(±Infinity)`
+`[]`|`""`|0|false|
+`[5]`(一个数字元素)|`"5"`|`5`|`true`|
+`['ran']`(其他数组)|`join(',')`|`NaN`|`true`|
+`function () {}`|函数源码字符串|`NaN`|`true`|
+`{}`(任意对象)|如下节所示|如下节所示|`true`|
 
 ##### 对象向原始值的转化
 任何对象{}都有两个原始的方法toString()和valueOf()，继承自原型链的顶端——Object.prototype对象。当对象做隐式转换时，首先会自动判断将要转化为什么类型，然后按规则调用上述两个方法。规则如下：
@@ -289,6 +311,18 @@ ary[10] = 10;
 ary.filter(function(x) { return x === undefined;});
 // => []
 // 因为filter只作用在非空元素上. (除了filter还有map也是这样)
+```
+
+```js
+var arr = new Array(3);
+var ary = [,,,];
+// 两个创建方式是等效的, 都会产生一个稀疏数组, 并且元素尚未存在. 和下面是不一样的:
+var ar = [undefined, undefined, undefined];
+
+0 in ary;
+// => false
+0 in ar;
+// => true
 ```
 
 #### Number
