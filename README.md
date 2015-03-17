@@ -1,10 +1,15 @@
 汇总(2015 ES5)
 ===
-> 汇集权威指南, 秘密花园, 设计模式, 网络资源以及个人总结.
+> 汇集权威指南, 秘密花园, 设计模式, 网络文摘以及个人总结.
 
 > either the good parts or the confused parts, Node.js(Io.js) or pure JavaScript u want 2 know ;)
 
 JavaScript是一门饱受争议的编程语言, 其存在固然有他优秀的一面. 当然, 在历史长河中得到的多数是批评, 这一点不可否认, 从它的某些"怪癖"确实能发现在语言设计上的缺陷和考虑的不周. 不过也恰恰因此使它看起来很神秘, Geek们喜欢通过Hack它来获取成就感, 比如`2 == [[[2]]]`返回`true`, `([]+[][-~[]/[]])[-~[]]+([]+{})[-~[]]+([]+-~[]/[])[(~-~-~[])*(~-~[])] `等于字符串`"not"`. 所以, 这里不管它是Good Parts还是Bad Parts, 先仔细玩味一番.
+
+### JavaScript的灵活性
+首先这里有篇阮一峰老师的文章: [JavaScript有多灵活?](http://www.ruanyifeng.com/blog/2015/02/flexible-javascript.html)
+
+说起它的灵活性, 恐怕其他语言都要甘拜下风了. 如果觉得上面这篇blog中提到的玩法属于小儿科, 那么继续往下看.
 
 ### 运算结合性与优先级
 
@@ -138,7 +143,7 @@ showCase2(String('A'));
 
 ![proto](https://raw.githubusercontent.com/abbshr/abbshr.github.io/master/source/img/proto.jpg)
 
-[blog 关于原型链的解释](https://github.com/abbshr/abbshr.github.io/issues/33)
+这里有一篇[关于原型链的解释](https://github.com/abbshr/abbshr.github.io/issues/33), 概述了JavaScript的继承模式.
 
 #### 继承
 
@@ -162,7 +167,7 @@ Con2.prototype.__proto__ = Construct.prototype
 
 ### 闭包
 
-[blog 闭包, 作用域链, 内存泄露](https://github.com/abbshr/abbshr.github.io/issues/31)
+来自我的blog: [闭包, 作用域链, 内存泄露](https://github.com/abbshr/abbshr.github.io/issues/31)
 
 ### other Tricks
 
