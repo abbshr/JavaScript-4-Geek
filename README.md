@@ -137,6 +137,8 @@ showCase2(String('A'));
 // 不带new的String为类型转换函数, 并不创建对象.
 ```
 
+最后通过这个B格甚高的项目[jsfuck](https://github.com/aemkei/jsfuck)感受一下JavaScript中匪夷所思的类型转换吧.
+
 ### 原型继承
 
 #### 原型链
